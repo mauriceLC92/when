@@ -11,6 +11,10 @@ go test ./...
 # Run tests for a specific language package
 go test ./rules/en/...
 go test ./rules/ru/...
+go test ./rules/br/...
+go test ./rules/zh/...
+go test ./rules/nl/...
+go test ./rules/common/...
 
 # Run a specific test
 go test ./rules/en -run TestDeadline
@@ -45,10 +49,18 @@ Rules are grouped by language in `rules/{lang}/`:
 
 ### Parsing Flow
 
-1. All rules are matched against input text
+1. All rules are matched against input text (each rule yields only its first match)
 2. Matches within `Distance` (default 5 chars) are clustered together
-3. Matched rules are applied to a `Context` in order
+3. Matched rules are applied to a `Context` in order (by definition order, or match order if `MatchByOrder` is true)
 4. `Context.Time()` combines accumulated values with base time to produce result
+
+### Key Concepts
+
+- **Context**: Accumulates both absolute values (Year, Month, Day, Hour, Minute, Second) and relative durations. The `Time()` method applies these to the reference time.
+- **Distance**: Maximum character gap between matches to be included in the same cluster (default: 5).
+- **Strategies**: Rules can use `Override`, `Merge`, or `Skip` strategies (currently only `Override` is commonly used).
+- **Regex Captures**: The `RegExp` pattern's capture groups populate `m.Captures[]` in the Applier function.
+- **Empty Matches**: Rules that return empty `Captures` or fail to match return `nil` from `Find()`.
 
 ### Adding New Rules
 
@@ -67,3 +79,16 @@ func MyRule(s rules.Strategy) rules.Rule {
 ```
 
 Add the rule to the language's `All` slice in `{lang}/{lang}.go`.
+
+**Important:** Rule order matters! More specific patterns should come before general ones in the `All` slice. For example, ordinal patterns ("3rd wednesday") should precede simple weekday patterns ("wednesday").
+
+### Rule Testing Pattern
+
+Each rule typically has a corresponding `_test.go` file with table-driven tests:
+```go
+func TestMyRule(t *testing.T) {
+    w := when.New(nil)
+    w.Add(MyRule(rules.Override))
+    // Test cases verify the rule correctly parses expected inputs
+}
+```

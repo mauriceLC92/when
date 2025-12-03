@@ -110,7 +110,7 @@ The project is in a more-or-less complete state. It's used for one project alrea
 ### TODO
 
 - [ ] readme: describe all the existing rules
-- [ ] implement missed rules for examples.md
+- [x] implement missed rules for examples.md
 
 ### LICENSE
 
