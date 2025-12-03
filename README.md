@@ -110,8 +110,7 @@ The project is in a more-or-less complete state. It's used for one project alrea
 ### TODO
 
 - [ ] readme: describe all the existing rules
-- [ ] implement missed rules for [these examples](https://github.com/mojombo/chronic#examples)
-- [ ] add cli and simple rest api server([#2](https://github.com/olebedev/when/issues/2))
+- [ ] implement missed rules for examples.md
 
 ### LICENSE
 

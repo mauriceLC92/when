@@ -3,14 +3,38 @@ package en
 import "github.com/olebedev/when/rules"
 
 var All = []rules.Rule{
-	Weekday(rules.Override),
-	CasualDate(rules.Override),
-	CasualTime(rules.Override),
-	Hour(rules.Override),
-	HourMinute(rules.Override),
-	Deadline(rules.Override),
-	PastTime(rules.Override),
-	ExactMonthDate(rules.Override),
+	// Most specific patterns first - ordinal patterns
+	OrdinalWeekdayInMonth(rules.Override), // "3rd wednesday in november"
+	OrdinalDayInWeek(rules.Override),      // "4th day last week"
+	OrdinalMonthInYear(rules.Override),    // "3rd month next year"
+
+	// Date patterns with year
+	DayMonthYear(rules.Override),    // "5th may 2017"
+	DayNumMonthYear(rules.Override), // "3 jan 2000"
+	MonthDayYear(rules.Override),    // "january 5, 2010"
+	MonthYear(rules.Override),       // "October 2006"
+
+	// Weekday and month-date patterns
+	Weekday(rules.Override),        // "next monday"
+	ExactMonthDate(rules.Override), // "march 5th"
+
+	// Casual expressions (before time patterns to preserve original clustering behavior)
+	CasualDate(rules.Override), // "tomorrow", "tonight"
+	CasualTime(rules.Override), // "morning", "afternoon"
+
+	// Time patterns (specific to general)
+	HourRelativeTo(rules.Override), // "10 to 8", "half past 2"
+	HourInPeriod(rules.Override),   // "6 in the morning"
+	HourOClock(rules.Override),     // "11 o'clock"
+	Hour(rules.Override),           // "5pm"
+	HourMinute(rules.Override),     // "5:30pm", "17:00"
+	MilitaryTime(rules.Override),   // "0800"
+
+	// Relative time
+	RelativeNow(rules.Override),  // "5 days from now", "1 week hence"
+	RelativeWeek(rules.Override), // "last week", "next month"
+	Deadline(rules.Override),     // "in 5 minutes"
+	PastTime(rules.Override),     // "5 minutes ago"
 }
 
 var WEEKDAY_OFFSET = map[string]int{
