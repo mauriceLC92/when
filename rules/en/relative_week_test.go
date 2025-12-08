@@ -11,11 +11,11 @@ import (
 )
 
 func TestRelativeWeek(t *testing.T) {
-	// Note: null is January 6, 2016 (Wednesday)
+	// Note: null is January 6, 2016 (Wednesday 00:00)
 	fixt := []Fixture{
 		{"last week", 0, "last week", -7 * 24 * time.Hour},
-		{"next week", 0, "next week", 7 * 24 * time.Hour},
-		{"review next week", 7, "next week", 7 * 24 * time.Hour},
+		{"next week", 0, "next week", (5*24 + 9) * time.Hour},      // Changed: "next week" now means next Monday at 09:00 (5d 9h from Wed)
+		{"review next week", 7, "next week", (5*24 + 9) * time.Hour}, // Changed: same as above
 		{"did it last week", 7, "last week", -7 * 24 * time.Hour},
 	}
 

@@ -27,21 +27,21 @@ func CasualTime(s rules.Strategy) rules.Rule {
 				if o.Afternoon != 0 {
 					c.Hour = &o.Afternoon
 				} else {
-					c.Hour = pointer.ToInt(15)
+					c.Hour = pointer.ToInt(12)
 				}
 				c.Minute = pointer.ToInt(0)
 			case strings.Contains(lower, "evening"):
 				if o.Evening != 0 {
 					c.Hour = &o.Evening
 				} else {
-					c.Hour = pointer.ToInt(18)
+					c.Hour = pointer.ToInt(19)
 				}
 				c.Minute = pointer.ToInt(0)
 			case strings.Contains(lower, "morning"):
 				if o.Morning != 0 {
 					c.Hour = &o.Morning
 				} else {
-					c.Hour = pointer.ToInt(8)
+					c.Hour = pointer.ToInt(9)
 				}
 				c.Minute = pointer.ToInt(0)
 			case strings.Contains(lower, "noon"):

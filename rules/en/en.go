@@ -16,11 +16,16 @@ var All = []rules.Rule{
 
 	// Weekday and month-date patterns
 	Weekday(rules.Override),        // "next monday"
+	ThisWeekend(rules.Override),    // "this weekend"
 	ExactMonthDate(rules.Override), // "march 5th"
 
 	// Casual expressions (before time patterns to preserve original clustering behavior)
-	CasualDate(rules.Override), // "tomorrow", "tonight"
-	CasualTime(rules.Override), // "morning", "afternoon"
+	CasualDate(rules.Override),     // "tomorrow", "tonight"
+	CasualTime(rules.Override),     // "morning", "afternoon"
+	LaterToday(rules.Override),     // "later today"
+	AfterLunch(rules.Override),     // "after lunch"
+	AfterWork(rules.Override),      // "after work"
+	BeforeEndOfDay(rules.Override), // "before end of day", "before EOD"
 
 	// Time patterns (specific to general)
 	HourRelativeTo(rules.Override), // "10 to 8", "half past 2"
@@ -33,6 +38,7 @@ var All = []rules.Rule{
 	// Relative time
 	RelativeNow(rules.Override),  // "5 days from now", "1 week hence"
 	RelativeWeek(rules.Override), // "last week", "next month"
+	NextQuarter(rules.Override),  // "next quarter"
 	Deadline(rules.Override),     // "in 5 minutes"
 	PastTime(rules.Override),     // "5 minutes ago"
 }

@@ -51,12 +51,12 @@ func TestAll(t *testing.T) {
 
 	// complex cases
 	fixt := []Fixture{
-		{"tonight at 11:10 pm", 0, "tonight at 11:10 pm", (23 * time.Hour) + (10 * time.Minute)},
-		{"at Friday afternoon", 3, "Friday afternoon", ((2 * 24) + 15) * time.Hour},
-		{"in next tuesday at 14:00", 3, "next tuesday at 14:00", ((6 * 24) + 14) * time.Hour},
-		{"in next tuesday at 2p", 3, "next tuesday at 2p", ((6 * 24) + 14) * time.Hour},
-		{"in next wednesday at 2:25 p.m.", 3, "next wednesday at 2:25 p.m.", (((7 * 24) + 14) * time.Hour) + (25 * time.Minute)},
-		{"at 11 am past tuesday", 3, "11 am past tuesday", -13 * time.Hour},
+		{"tonight at 11:10 pm", 0, "tonight at 11:10 pm", (23 * time.Hour) + (10 * time.Minute)},   // Explicit time overrides default
+		{"at Friday afternoon", 3, "Friday afternoon", ((2 * 24) + 12) * time.Hour},                // Changed: afternoon is now 12:00 (was 15:00)
+		{"in next tuesday at 14:00", 3, "next tuesday at 14:00", ((6 * 24) + 14) * time.Hour},      // Explicit time overrides default
+		{"in next tuesday at 2p", 3, "next tuesday at 2p", ((6 * 24) + 14) * time.Hour},            // Explicit time overrides default
+		{"in next wednesday at 2:25 p.m.", 3, "next wednesday at 2:25 p.m.", (((7 * 24) + 14) * time.Hour) + (25 * time.Minute)}, // Explicit time overrides default
+		{"at 11 am past tuesday", 3, "11 am past tuesday", -13 * time.Hour},                        // Explicit time overrides default
 	}
 
 	ApplyFixtures(t, "en.All...", w, fixt)

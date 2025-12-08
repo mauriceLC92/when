@@ -5,6 +5,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/AlekSi/pointer"
 	"github.com/olebedev/when/rules"
 )
 
@@ -80,7 +81,13 @@ func Weekday(s rules.Strategy) rules.Rule {
 				}
 			}
 
-			return true, nil
-		},
+		// Add default 09:00 time if no time specified
+		if c.Hour == nil && c.Minute == nil {
+			c.Hour = pointer.ToInt(9)
+			c.Minute = pointer.ToInt(0)
+		}
+
+		return true, nil
+	},
 	}
 }

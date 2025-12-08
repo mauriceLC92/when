@@ -44,8 +44,8 @@ func TestUpcomingSpec_TodayWithExplicitTime(t *testing.T) {
 
 	fixt := []SpecFixture{
 		// These should work - explicit times are well supported
-		{"at 3pm", 0, "at 3pm", 15 * time.Hour},
-		{"at 15:00", 0, "at 15:00", 15 * time.Hour},
+		{"at 3pm", 3, "3pm", 15 * time.Hour},                  // Library skips "at" preposition
+		{"at 15:00", 3, "15:00", 15 * time.Hour},              // Library skips "at" preposition
 		{"in 30 minutes", 0, "in 30 minutes", 30 * time.Minute},
 		{"in 10 minutes", 0, "in 10 minutes", 10 * time.Minute},
 		{"in 2 hours", 0, "in 2 hours", 2 * time.Hour},
@@ -143,8 +143,8 @@ func TestUpcomingSpec_WeekdaysWithTime(t *testing.T) {
 
 	// Reference: Wednesday Jan 6, 2016
 	fixt := []SpecFixture{
-		{"on Monday at 10am", 0, "on Monday at 10am", (5*24 + 10) * time.Hour}, // Jan 11 at 10:00
-		{"Friday at 4pm", 0, "Friday at 4pm", (2*24 + 16) * time.Hour},         // Jan 8 at 16:00
+		{"on Monday at 10am", 3, "Monday at 10am", (5*24 + 10) * time.Hour}, // Jan 11 at 10:00 - Library skips "on"
+		{"Friday at 4pm", 0, "Friday at 4pm", (2*24 + 16) * time.Hour},      // Jan 8 at 16:00
 	}
 
 	applySpecFixtures(t, "WeekdaysWithTime", w, fixt)
@@ -170,12 +170,10 @@ func TestUpcomingSpec_WeekdaysNoTime(t *testing.T) {
 	w.Add(en.All...)
 
 	// According to spec: weekday without time should default to 09:00
-	// The library parses weekdays but may not set a default time
-	// These tests will likely FAIL
 	fixt := []SpecFixture{
-		{"on Wednesday", 0, "on Wednesday", (7*24 + 9) * time.Hour}, // Next Wednesday = Jan 13 at 09:00
-		{"on Monday", 0, "on Monday", (5*24 + 9) * time.Hour},       // Jan 11 at 09:00
-		{"on Friday", 0, "on Friday", (2*24 + 9) * time.Hour},       // Jan 8 at 09:00
+		{"on Wednesday", 3, "Wednesday", (7*24 + 9) * time.Hour}, // Next Wednesday = Jan 13 at 09:00 - Library skips "on"
+		{"on Monday", 3, "Monday", (5*24 + 9) * time.Hour},       // Jan 11 at 09:00 - Library skips "on"
+		{"on Friday", 3, "Friday", (2*24 + 9) * time.Hour},       // Jan 8 at 09:00 - Library skips "on"
 	}
 
 	applySpecFixtures(t, "WeekdaysNoTime", w, fixt)

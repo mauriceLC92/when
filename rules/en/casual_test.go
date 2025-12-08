@@ -13,8 +13,8 @@ func TestCasualDate(t *testing.T) {
 	fixt := []Fixture{
 		{"The Deadline is now, ok", 16, "now", 0},
 		{"The Deadline is today", 16, "today", 0},
-		{"The Deadline is tonight", 16, "tonight", 23 * time.Hour},
-		{"The Deadline is tomorrow evening", 16, "tomorrow", time.Hour * 24},
+		{"The Deadline is tonight", 16, "tonight", 20 * time.Hour}, // Changed from 23h to 20h per spec
+		{"The Deadline is tomorrow evening", 16, "tomorrow", (24 + 9) * time.Hour}, // Changed: tomorrow now defaults to 09:00
 		{"The Deadline is yesterday evening", 16, "yesterday", -(time.Hour * 24)},
 	}
 
@@ -26,10 +26,10 @@ func TestCasualDate(t *testing.T) {
 
 func TestCasualTime(t *testing.T) {
 	fixt := []Fixture{
-		{"The Deadline was this morning ", 17, "this morning", 8 * time.Hour},
+		{"The Deadline was this morning ", 17, "this morning", 9 * time.Hour},     // Changed from 8h to 9h per spec
 		{"The Deadline was this noon ", 17, "this noon", 12 * time.Hour},
-		{"The Deadline was this afternoon ", 17, "this afternoon", 15 * time.Hour},
-		{"The Deadline was this evening ", 17, "this evening", 18 * time.Hour},
+		{"The Deadline was this afternoon ", 17, "this afternoon", 12 * time.Hour}, // Changed from 15h to 12h per spec
+		{"The Deadline was this evening ", 17, "this evening", 19 * time.Hour},     // Changed from 18h to 19h per spec
 	}
 
 	w := when.New(nil)
@@ -40,7 +40,7 @@ func TestCasualTime(t *testing.T) {
 
 func TestCasualDateCasualTime(t *testing.T) {
 	fixt := []Fixture{
-		{"The Deadline is tomorrow this afternoon ", 16, "tomorrow this afternoon", (15 + 24) * time.Hour},
+		{"The Deadline is tomorrow this afternoon ", 16, "tomorrow this afternoon", (12 + 24) * time.Hour}, // Changed from 15h to 12h per spec
 	}
 
 	w := when.New(nil)

@@ -43,7 +43,15 @@ func RelativeWeek(s rules.Strategy) rules.Rule {
 				case "last", "past":
 					c.Duration = -7 * 24 * time.Hour
 				case "next":
-					c.Duration = 7 * 24 * time.Hour
+					// "next week" means next Monday at 09:00
+					// Calculate days until next Monday
+					daysUntilMonday := (8 - int(ref.Weekday())) % 7
+					if daysUntilMonday == 0 {
+						daysUntilMonday = 7 // If today is Monday, go to next Monday
+					}
+					c.Duration = time.Duration(daysUntilMonday*24) * time.Hour
+					c.Hour = pointer.ToInt(9)
+					c.Minute = pointer.ToInt(0)
 				case "this":
 					// this week - no change (current week)
 				}
@@ -67,6 +75,12 @@ func RelativeWeek(s rules.Strategy) rules.Rule {
 						c.Year = pointer.ToInt(ref.Year() + 1)
 					}
 					c.Month = pointer.ToInt(month)
+					c.Day = pointer.ToInt(1) // First day of the month
+					// Add default time if not already set
+					if c.Hour == nil && c.Minute == nil {
+						c.Hour = pointer.ToInt(9)
+						c.Minute = pointer.ToInt(0)
+					}
 				case "this":
 					c.Month = pointer.ToInt(int(ref.Month()))
 				}
